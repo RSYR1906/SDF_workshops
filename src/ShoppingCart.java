@@ -27,6 +27,11 @@ public class ShoppingCart {
         String[] itemList = items.split(",");
         for (String item : itemList) {
             item = item.trim();
+            if (!item.equals(item.toLowerCase())) {
+                System.out.println(
+                        "Error: Item '" + item + "' contains uppercase letters. Only lowercase items are allowed.");
+                continue; // Skip this item and continue with the next one
+            }
             if (!cart.contains(item)) {
                 cart.add(item);
                 System.out.println(item + " added to the cart.");
