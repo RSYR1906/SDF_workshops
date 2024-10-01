@@ -22,6 +22,9 @@ public class ShoppingCart {
         }
     }
 
+    /**
+     * @param items
+     */
     // Method to add items to the cart
     public void addItems(String items) {
         String[] itemList = items.split(",");
