@@ -2,16 +2,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ShoppingCart {
-    // The shopping cart is an ArrayList of Strings
-    private ArrayList<String> cart;
+    private static ArrayList<String> cart; // The shopping cart is an ArrayList of Strings
 
-    // Constructor to initialize the shopping cart
-    public ShoppingCart() {
+    public ShoppingCart() { // Constructor to initialize the shopping cart
         cart = new ArrayList<>();
     }
 
-    // Method to list the contents of the cart
-    public void listCart() {
+    public void listCart() { // Method to list the contents of the cart
         if (cart.isEmpty()) {
             System.out.println("Your cart is empty.");
         } else {
@@ -25,8 +22,7 @@ public class ShoppingCart {
     /**
      * @param items
      */
-    // Method to add items to the cart
-    public void addItems(String items) {
+    public void addItems(String items) { // Method to add items to the cart
         String[] itemList = items.split(",");
         for (String item : itemList) {
             item = item.trim();
@@ -38,14 +34,15 @@ public class ShoppingCart {
             if (!cart.contains(item)) {
                 cart.add(item);
                 System.out.println(item + " added to the cart.");
-            } else {
+            }
+
+            else {
                 System.out.println(item + " is already in the cart.");
             }
         }
     }
 
-    // Method to delete an item from the cart
-    public void deleteItem(int index) {
+    public void deleteItem(int index) { // Method to delete an item from the cart
         if (index >= 1 && index <= cart.size()) {
             String removedItem = cart.remove(index - 1);
             System.out.println(removedItem + " removed from the cart.");
@@ -54,20 +51,18 @@ public class ShoppingCart {
         }
     }
 
-    // Main method for the program
-    public static void main(String[] args) {
+    public static void main(String[] args) { // Main method for the program
         ShoppingCart shoppingCart = new ShoppingCart();
         Scanner scanner = new Scanner(System.in);
         String command;
 
         System.out.println("Welcome to the Shopping Cart!");
 
-        // Command loop
-        while (true) {
-            System.out.print("\nEnter a command (list, add, delete, or quit): ");
+        while (true) { // Command loop
+            System.out.print("\n[Enter a command] \n \n list, add, delete, or quit: ");
             command = scanner.nextLine().trim().toLowerCase();
 
-            switch (command) {
+            switch (command) { // different cases of the Shopping Cart
                 case "list":
                     shoppingCart.listCart();
                     break;
@@ -80,11 +75,22 @@ public class ShoppingCart {
 
                 case "delete":
                     System.out.print("Enter the item number to delete: ");
-                    try {
-                        int index = Integer.parseInt(scanner.nextLine());
-                        shoppingCart.deleteItem(index);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Please enter a valid number.");
+                    String input = scanner.nextLine();
+
+                    // Check if the input is a number
+                    if (!input.matches("\\d+")) { // This checks if input contains only digits
+                        System.out.println("Incorrect item index,please enter numeric values.");
+                        break;
+                    }
+
+                    int index = Integer.parseInt(input);
+
+                    // Check if index is within range
+                    if (index < 0 || index > cart.size()) { // Assuming cart.size() returns the
+                                                            // number of items
+                        System.out.println("Incorrect item index, index out of range");
+                    } else {
+                        shoppingCart.deleteItem(index); // Proceed with deletion if index is valid
                     }
                     break;
 
