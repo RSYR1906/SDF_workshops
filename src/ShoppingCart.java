@@ -60,7 +60,8 @@ public class ShoppingCart {
 
         while (true) { // Command loop
             System.out.print("\n[Enter a command] \n \n list, add, delete, or quit: ");
-            command = scanner.nextLine().trim().toLowerCase();
+            command = scanner.nextLine().trim().toLowerCase(); // making sure all the commands are in lowercase as it is
+                                                               // case-sensitive
 
             switch (command) { // different cases of the Shopping Cart
                 case "list":
