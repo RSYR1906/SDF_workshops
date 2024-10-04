@@ -17,9 +17,9 @@ public class BankAccount {
 
     private boolean accClosed;
 
-    private final Date accCreatedDate;
+    private final String accCreatedDate;
 
-    private Date accDeletedDate;
+    private String accDeletedDate;
 
     public BankAccount(String accHolderName) {
         this.accHolderName = accHolderName;
@@ -27,7 +27,7 @@ public class BankAccount {
         this.accNumber = generateAccNumber();
         this.transactionHistory = new ArrayList<>();
         this.accClosed = false;
-        this.accCreatedDate = new Date();
+        this.accCreatedDate = new String();
         this.accDeletedDate = null;
     }
 
@@ -65,11 +65,13 @@ public class BankAccount {
         this.accClosed = accClosed;
     }
 
-    public Date getAccCreatedDate() {
+    public String getAccCreatedDate() {
+        String accCreatedDate = getCurrentDate();
         return accCreatedDate;
     }
 
-    public Date getAccDeletedDate() {
+    public String getAccDeletedDate() {
+        String accDeletedDate = getCurrentDate();
         return accDeletedDate;
     }
 
@@ -86,17 +88,18 @@ public class BankAccount {
         return formattedDateTime;
     }
 
-    public void setAccDeletedDate(Date accDeletedDate) {
+    public void setAccDeletedDate(String accDeletedDate) {
         this.accDeletedDate = accDeletedDate;
     }
 
     public void deposit(float amount) {
-        if (amount < 0) {
+        if (amount < 0.0f) {
             throw new IllegalArgumentException("Initial balance cannot be a negative value");
         }
 
         accountBalance += amount;
         transactionHistory.add("Deposited " + amount + " at " + getCurrentDate());
+        System.out.println("Account balance: " + accountBalance);
     }
 
     public void withdraw(float amount) {
@@ -104,11 +107,16 @@ public class BankAccount {
             throw new IllegalArgumentException("Initial balance cannot be a negative value");
         }
 
-        accountBalance -= amount;
+        accountBalance = accountBalance - amount;
+        if (accountBalance < 0.0f) {
+            throw new IllegalArgumentException("Withdrawal amount cannot be more than balance");
+        }
         transactionHistory.add("Withdrawn " + amount + " at " + getCurrentDate());
+        System.out.println("Account balance: " + accountBalance);
+
     }
 
-    private String generateAccNumber() {
+    public String generateAccNumber() {
         Random random = new Random();
         String randAccNumber = String.format("%09d", random.nextInt(1000000000));
         return randAccNumber;
@@ -117,7 +125,7 @@ public class BankAccount {
     public void closeAcc() {
         if (accClosed = false) {
             this.accClosed = true;
-            this.accDeletedDate = new Date();
+            this.accDeletedDate = new String();
             transactionHistory.add("Account closed at " + getCurrentDate());
         }
     }

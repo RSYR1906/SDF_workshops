@@ -72,10 +72,14 @@ public class FixedDepositAccount extends BankAccount {
     }
 
     public void displayAccDetails() {
+        System.out.println("Account details");
+        System.out.println("================");
         System.out.println("FixedD account name: " + this.getAccHolderName());
+        System.out.println("FixedD account number: " + generateAccNumber());
         System.out.println("FixedD balance: " + this.getAccountBalance());
         System.out.println("FixedD interest rate: " + this.getInterest());
         System.out.println("FixedD months held: " + this.getDurationInMonths());
+        System.out.println("FixedD created on: " + this.getAccCreatedDate());
 
     }
 
