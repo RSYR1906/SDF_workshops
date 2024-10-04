@@ -1,100 +1,125 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class BankAccount {
-    private final String accountHolderName; // Read-only property
-    private final String accountNumber; // Randomly generated account number
-    private float accountBalance; // Account balance
-    private final List<String> transactions; // List of transactions
-    private boolean closed; // Indicates if the account is closed
-    private final Date accountCreationDate; // Account creation date
-    private Date accountClosingDate; // Account closing date (nullable)
 
-    // Constructor for setting account holder's name only
-    public BankAccount(String accountHolderName) {
-        this.accountHolderName = accountHolderName;
-        this.accountNumber = generateAccountNumber();
+    private final String accHolderName;
+
+    private Float accountBalance;
+
+    private final String accNumber;
+
+    private final List<String> transactionHistory;
+
+    private boolean accClosed;
+
+    private final Date accCreatedDate;
+
+    private Date accDeletedDate;
+
+    public BankAccount(String accHolderName) {
+        this.accHolderName = accHolderName;
         this.accountBalance = 0.0f;
-        this.transactions = new ArrayList<>();
-        this.closed = false;
-        this.accountCreationDate = new Date(); // Set to current date
-        this.accountClosingDate = null; // Not set initially
+        this.accNumber = generateAccNumber();
+        this.transactionHistory = new ArrayList<>();
+        this.accClosed = false;
+        this.accCreatedDate = new Date();
+        this.accDeletedDate = null;
     }
 
-    // Constructor for setting account holder's name and initial balance
-    public BankAccount(String accountHolderName, float initialBalance) {
-        this(accountHolderName); // Call the first constructor
-        if (initialBalance < 0) {
-            throw new IllegalArgumentException("Initial balance cannot be negative.");
+    public BankAccount(String accHolderName, float initialAccBalance) {
+        this(accHolderName);
+        if (initialAccBalance < 0) {
+            throw new IllegalArgumentException("Initial balance cannot be a negative value");
         }
-        this.accountBalance = initialBalance;
-        transactions.add("Initial deposit of $" + initialBalance + " at " + getCurrentDateTime());
+
+        this.accountBalance = initialAccBalance;
+
     }
 
-    private String generateAccountNumber() {
-        Random random = new Random();
-        return String.format("%010d", random.nextInt(1000000000));
+    public String getAccHolderName() {
+        return accHolderName;
     }
 
-    public void deposit(float amount) {
-        if (amount <= 0 || closed) {
-            throw new IllegalArgumentException("Deposit amount must be positive and account must be open.");
-        }
-        accountBalance += amount;
-        transactions.add("Deposit $" + amount + " at " + getCurrentDateTime());
-    }
-
-    public void withdraw(float amount) {
-        if (amount <= 0 || amount > accountBalance || closed) {
-            throw new IllegalArgumentException("Invalid withdrawal amount or account is closed.");
-        }
-        accountBalance -= amount;
-        transactions.add("Withdraw $" + amount + " at " + getCurrentDateTime());
-    }
-
-    public void closeAccount() {
-        if (!closed) {
-            this.closed = true;
-            this.accountClosingDate = new Date();
-            transactions.add("Account closed at " + getCurrentDateTime());
-        }
-    }
-
-    public String getAccountHolderName() {
-        return accountHolderName;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public float getAccountBalance() {
+    public Float getAccountBalance() {
         return accountBalance;
     }
 
-    public List<String> getTransactions() {
-        return transactions;
+    public void setAccountBalance(Float accountBalance) {
+        this.accountBalance = accountBalance;
     }
 
-    public boolean isClosed() {
-        return closed;
+    public List<String> getTransactionHistory() {
+        return transactionHistory;
     }
 
-    public Date getAccountCreationDate() {
-        return accountCreationDate;
+    public boolean isAccClosed() {
+        return accClosed;
     }
 
-    public Date getAccountClosingDate() {
-        return accountClosingDate;
+    public void setAccClosed(boolean accClosed) {
+        this.accClosed = accClosed;
     }
 
-    // Helper method to get the current date and time in a readable format
-    private String getCurrentDateTime() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return formatter.format(new Date());
+    public Date getAccCreatedDate() {
+        return accCreatedDate;
+    }
+
+    public Date getAccDeletedDate() {
+        return accDeletedDate;
+    }
+
+    public String getCurrentDate() {
+        // Get the current date and time
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        // Define a custom format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
+
+        // Format the date and time
+        String formattedDateTime = currentDateTime.format(formatter);
+
+        return formattedDateTime;
+    }
+
+    public void setAccDeletedDate(Date accDeletedDate) {
+        this.accDeletedDate = accDeletedDate;
+    }
+
+    public void deposit(float amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Initial balance cannot be a negative value");
+        }
+
+        accountBalance += amount;
+        transactionHistory.add("Deposited " + amount + " at " + getCurrentDate());
+    }
+
+    public void withdraw(float amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Initial balance cannot be a negative value");
+        }
+
+        accountBalance -= amount;
+        transactionHistory.add("Withdrawn " + amount + " at " + getCurrentDate());
+    }
+
+    private String generateAccNumber() {
+        Random random = new Random();
+        String randAccNumber = String.format("%09d", random.nextInt(1000000000));
+        return randAccNumber;
+    }
+
+    public void closeAcc() {
+        if (accClosed = false) {
+            this.accClosed = true;
+            this.accDeletedDate = new Date();
+            transactionHistory.add("Account closed at " + getCurrentDate());
+        }
     }
 
 }
