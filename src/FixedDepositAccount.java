@@ -67,7 +67,6 @@ public class FixedDepositAccount extends BankAccount {
         return super.getAccountBalance() + interest;
     }
 
-    // Getters for interest and duration
     public float getInterest() {
         return interest;
     }

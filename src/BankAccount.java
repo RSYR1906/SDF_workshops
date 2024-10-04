@@ -34,14 +34,11 @@ public class BankAccount {
         transactions.add("Initial deposit of $" + initialBalance + " at " + getCurrentDateTime());
     }
 
-    // Method to generate a random account number
     private String generateAccountNumber() {
-        // Generate a random 10-digit account number
         Random random = new Random();
         return String.format("%010d", random.nextInt(1000000000));
     }
 
-    // Method to deposit an amount
     public void deposit(float amount) {
         if (amount <= 0 || closed) {
             throw new IllegalArgumentException("Deposit amount must be positive and account must be open.");
@@ -50,7 +47,6 @@ public class BankAccount {
         transactions.add("Deposit $" + amount + " at " + getCurrentDateTime());
     }
 
-    // Method to withdraw an amount
     public void withdraw(float amount) {
         if (amount <= 0 || amount > accountBalance || closed) {
             throw new IllegalArgumentException("Invalid withdrawal amount or account is closed.");
@@ -59,7 +55,6 @@ public class BankAccount {
         transactions.add("Withdraw $" + amount + " at " + getCurrentDateTime());
     }
 
-    // Method to close the account
     public void closeAccount() {
         if (!closed) {
             this.closed = true;
@@ -68,7 +63,6 @@ public class BankAccount {
         }
     }
 
-    // Getters for read-only properties
     public String getAccountHolderName() {
         return accountHolderName;
     }
@@ -103,5 +97,4 @@ public class BankAccount {
         return formatter.format(new Date());
     }
 
-    
 }
