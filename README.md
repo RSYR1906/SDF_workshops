@@ -2,7 +2,11 @@
 
 ## NUS ISS course Software Development Fundamentals
 
-Lesson 1 Workshop
+Lesson 1 Workshop -- ShoppingCart
+
+Lesson 2 WorkShop -- BankAccount & FixedDepositAccount
+
+Lesson 3 WorkShop -- Continue from ShoppingCart 
 
 ### Workshop 1
 

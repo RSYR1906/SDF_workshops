@@ -1,2 +1,5 @@
 ##Ignore all .class files
-classes/
+*.class
+
+/target/** */
+/bin/** */
