@@ -10,5 +10,8 @@ public class Main {
         FixedDepositAccount juneAccount = new FixedDepositAccount("June", 100.0f, 5.0f);
 
         juneAccount.displayAccDetails();
+
+        
+
     }
 }

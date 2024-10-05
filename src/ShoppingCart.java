@@ -1,28 +1,31 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.IOException;
+import java.util.*;
 
 public class ShoppingCart {
+    private List<String> cartItems;
+    private ShoppingCartDB cartDB;
+    private String currentUser;
 
-    static ArrayList<String> cart = new ArrayList<>(); // The shopping cart is an ArrayList of Strings
+    public ShoppingCart(String cartDirectory) {
+        this.cartItems = new ArrayList<>();
+        this.cartDB = new ShoppingCartDB(cartDirectory);
+        this.currentUser = null;
+    }
 
-    // public ShoppingCart2() { // Constructor to initialize the shopping cart
-    // cart = new ArrayList<>();
-    // }
-
-    public void listCart() { // list feature (if else)
-
-        if (cart.isEmpty()) { // check if cart is empty
-            System.out.println("\nYour cart is empty");
+    // List items in the cart
+    public void listCart() {
+        if (cartItems.isEmpty()) {
+            System.out.println("Your cart is empty.");
         } else {
-            System.out.println("\nItems in your cart");
-            for (int i = 0; i < cart.size(); i++) {
-                System.out.println((i + 1) + ". " + cart.get(i));
+            System.out.println("Your cart:");
+            for (int i = 0; i < cartItems.size(); i++) {
+                System.out.println((i + 1) + ". " + cartItems.get(i));
             }
-
         }
     }
 
-    public void addItems(String items) { // add feature (for loop and check if item already in list)
+    // Add items to the cart
+    public void addItem(String items) {
         String[] itemList = items.split(",");
 
         for (String item : itemList) {
@@ -31,95 +34,109 @@ public class ShoppingCart {
 
                 continue;
             }
-            if (cart.contains(item)) {
+            if (cartItems.contains(item)) {
                 System.out.println("\nitem already in list");
             } else {
-                cart.add(item);
+                cartItems.add(item);
                 System.out.println("\n" + item + " added to cart");
             }
 
         }
-
     }
 
-    public void deleteItem(int index) { // delete feature (if index in list, delete. check also if the index is in
-                                        // range)
-        if (index >= 1 && index <= cart.size()) {
-            String removedItem = cart.remove(index - 1);
-            System.out.println(removedItem + " has been removed from the cart");
+    // Delete item from the cart
+    public void deleteItem(int index) {
+        if (index > 0 && index <= cartItems.size()) {
+            System.out.println("Removed: " + cartItems.remove(index - 1));
         } else {
-            System.out.println("\nIncorrect item index");
+            System.out.println("Index out of range");
         }
-
     }
 
-    public static void main(String[] args) {
+    // Login a user and load their cart
+    public void login(String username) {
+        try {
+            cartItems = cartDB.loadCart(username);
+            currentUser = username;
+            System.out.println("Logged in as " + username);
+        } catch (IOException e) {
+            System.err.println("Error loading cart for user: " + username);
+        }
+    }
 
-        ShoppingCart shoppingCart2 = new ShoppingCart(); // initialise a new shoppingCart2
+    // Save the cart for the current user
+    public void save() {
+        if (currentUser == null) {
+            System.out.println("Please login before saving.");
+        } else {
+            try {
+                cartDB.saveCart(currentUser, cartItems);
+            } catch (IOException e) {
+                System.err.println("Error saving cart for user: " + currentUser);
+            }
+        }
+    }
 
+    // List all users
+    public void listUsers() {
+        List<String> users = cartDB.listUsers();
+        if (users.isEmpty()) {
+            System.out.println("No users found.");
+        } else {
+            System.out.println("Users:");
+            for (String user : users) {
+                System.out.println("- " + user);
+            }
+        }
+    }
+
+    // Start interaction with the user
+    public void start() {
         Scanner scanner = new Scanner(System.in);
-        String command = new String();
+        String command;
 
-        System.out.println("\nWelcome to your shopping cart");
-        System.out.println("-----------------------------");
-        System.out.println("Enter [list] to display the shopping cart list");
-        System.out.println(
-                "Enter [add] to add items to the list. Items entered should be separated by , (eg.banana,apple)");
-        System.out.println("Enter [delete] to delete an item in the list");
-        System.out.println("Enter [quit] to leave the programme");
-
-        while (!command.equals("quit")) {
-
-            System.out.printf("\nPlease enter a commmand: ");
-
+        while (true) {
+            System.out.print("Enter command (list, add, delete, login, save, users, quit): ");
             command = scanner.nextLine().trim().toLowerCase();
 
             switch (command) {
                 case "list":
-                    shoppingCart2.listCart();
+                    listCart();
                     break;
 
                 case "add":
-                    System.out.printf("\nEnter the name of items to be added to the cart: ");
-                    String items = scanner.nextLine();
-                    shoppingCart2.addItems(items);
+                    System.out.print("Enter item to add: ");
+                    String item = scanner.nextLine();
+                    addItem(item);
                     break;
 
                 case "delete":
-                    System.out.printf("\nEnter the index of the item to be deleted from cart: ");
-                    String input = scanner.nextLine();
+                    System.out.print("Enter index of item to delete: ");
+                    int index = Integer.parseInt(scanner.nextLine());
+                    deleteItem(index);
+                    break;
 
-                    if (input.matches(".*[^a-zA-Z0-9].*")) { // Check if the input contains any special symbols
-                                                             // (anything other than digits)
-                        System.out.println("\nPlease avoid special symbols.");
-                        break;
-                    }
-                    if (!input.matches("\\d+")) {
-                        System.out.println("\nPlease enter an integer");
-                    }
+                case "login":
+                    System.out.print("Enter username: ");
+                    String username = scanner.nextLine();
+                    login(username);
+                    break;
 
-                    int index = Integer.parseInt(input); // convert String to Integer
+                case "save":
+                    save();
+                    break;
 
-                    if (index < 1 || index > cart.size()) {
-                        System.out.println("\nIndex out of range");
-                    }
-
-                    else {
-                        shoppingCart2.deleteItem(index);
-                    }
+                case "users":
+                    listUsers();
                     break;
 
                 case "quit":
-                    System.out.println("\nGoodbye!");
+                    System.out.println("Exiting...");
                     return;
 
                 default:
-                    System.out.println("\ninput was not one of commands");
-
+                    System.out.println("Unknown command.");
             }
-            scanner.close();
-
         }
-
     }
 }
