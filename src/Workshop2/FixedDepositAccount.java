@@ -1,3 +1,4 @@
+package Workshop2;
 public class FixedDepositAccount extends BankAccount {
 
     private Float interest;

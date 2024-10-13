@@ -1,3 +1,4 @@
+package Workshop1_and_3;
 public class ShoppingCartApp {
     public static void main(String[] args) {
         String cartDirectory;
