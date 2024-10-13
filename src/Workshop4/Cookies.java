@@ -1,4 +1,5 @@
 package Workshop4;
+
 import java.io.*;
 import java.util.*;
 
@@ -12,7 +13,7 @@ public class Cookies {
         this.cookiesList = new ArrayList<>();
         this.random = new Random();
 
-        openFile();
+        openFile(); // always open file when called
     }
 
     // get cookies randomly method
