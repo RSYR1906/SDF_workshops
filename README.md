@@ -4,9 +4,11 @@
 
 Lesson 1 Workshop -- ShoppingCart
 
-Lesson 2 WorkShop -- BankAccount & FixedDepositAccount
+Lesson 2 Workshop -- BankAccount & FixedDepositAccount
 
-Lesson 3 WorkShop -- Continue from ShoppingCart 
+Lesson 3 Workshop -- Continue from ShoppingCart
+
+Lesson 4 Workshop -- Fortune Cookie generator (Client-Server)
 
 ### Workshop 1
 

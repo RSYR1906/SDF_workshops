@@ -1,15 +1,14 @@
-package Workshop4;
-
+package Workshop6;
 
 import java.io.*;
 import java.util.*;
 
-public class Cookies {
+public class Cookies_new {
     private String filePath;
     ArrayList<String> cookiesList;
     private Random random;
 
-    public Cookies(String filePath) throws IOException {
+    public Cookies_new(String filePath) throws IOException {
         this.filePath = filePath;
         this.cookiesList = new ArrayList<>();
         this.random = new Random();

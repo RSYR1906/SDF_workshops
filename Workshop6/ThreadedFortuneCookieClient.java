@@ -1,10 +1,10 @@
-package Workshop4;
+package Workshop6;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class FortuneCookieClient {
+public class ThreadedFortuneCookieClient {
 
     // java-cp fortunecookie.jar fc.Client localhost:12345
 
@@ -20,14 +20,10 @@ public class FortuneCookieClient {
         System.out.println(">>>> Connected to server\n");
 
         // Output stream to server (request for cookies)
-        OutputStream os = sock.getOutputStream();
-        Writer writer = new OutputStreamWriter(os);
-        BufferedWriter bw = new BufferedWriter(writer);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
 
         // Input stream from server (receive cookies and display)
-        InputStream is = sock.getInputStream();
-        Reader reader = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(reader);
+        BufferedReader br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 
         // Scanner for user input
         Scanner scan = new Scanner(System.in);
