@@ -8,9 +8,6 @@ public class CookieClientHandler implements Runnable {
     private Socket socket;
     private Cookies_new cookieManager;
 
-    // Cookies_new cookiesManager = new Cookies_new(filePath); // Instantiate
-    // Cookies object
-
     public CookieClientHandler(Socket socket, Cookies_new cookieManager) {
         this.socket = socket;
         this.cookieManager = cookieManager;
@@ -50,7 +47,6 @@ public class CookieClientHandler implements Runnable {
                 }
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
