@@ -1,6 +1,7 @@
+package Practice;
 import java.util.Scanner;
 
-public class TicTacToe {
+public class TicTacToeAIMiniMax {
     static char[][] board = { { '_', '_', '_' },
             { '_', '_', '_' },
             { '_', '_', '_' } };
